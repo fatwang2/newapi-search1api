@@ -1,0 +1,1955 @@
+{
+  "cases": [
+    {
+      "name": "decode a search",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": {
+              "query": "nvidia earnings",
+              "max_results": 5,
+              "crawl_results": 2
+            }
+          }
+        }
+      ],
+      "expected": {
+        "kind": "submit",
+        "model": "search1api-search",
+        "action": "search",
+        "requestBody": {
+          "query": "nvidia earnings",
+          "max_results": 5,
+          "crawl_results": 2
+        }
+      },
+      "member": "decode_search"
+    },
+    {
+      "name": "decode a search batch",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": [
+              {
+                "query": "a"
+              },
+              {
+                "query": "b"
+              }
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "kind": "submit",
+        "model": "search1api-search",
+        "action": "search",
+        "requestBody": [
+          {
+            "query": "a"
+          },
+          {
+            "query": "b"
+          }
+        ]
+      },
+      "member": "decode_search"
+    },
+    {
+      "name": "decode a deep crawl",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": {
+              "url": "https://example.com",
+              "max_pages": 2
+            }
+          }
+        }
+      ],
+      "expected": {
+        "kind": "submit",
+        "model": "search1api-deepcrawl",
+        "action": "deepcrawl",
+        "requestBody": {
+          "url": "https://example.com",
+          "max_pages": 2
+        }
+      },
+      "member": "decode_deepcrawl"
+    },
+    {
+      "name": "ask takes no batch",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": [
+              {
+                "query": "a"
+              }
+            ]
+          }
+        }
+      ],
+      "expectedError": "/ask takes one JSON object, not an array",
+      "member": "decode_ask"
+    },
+    {
+      "name": "multipart is rejected",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "none"
+          }
+        }
+      ],
+      "expectedError": "JSON body required",
+      "member": "decode_search"
+    },
+    {
+      "name": "empty batch is rejected",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": []
+          }
+        }
+      ],
+      "expectedError": "at least one item",
+      "member": "decode_crawl"
+    },
+    {
+      "name": "oversized batch is rejected",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": [
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              },
+              {
+                "url": "https://a.test"
+              }
+            ]
+          }
+        }
+      ],
+      "expectedError": "at most 50 items",
+      "member": "decode_crawl"
+    },
+    {
+      "name": "non-object batch item",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": [
+              "https://a.test"
+            ]
+          }
+        }
+      ],
+      "expectedError": "Each batch item must be a JSON object",
+      "member": "decode_crawl"
+    },
+    {
+      "name": "search request to Search1API",
+      "hook": "buildSubmitRequest",
+      "args": [
+        {
+          "requestBody": {
+            "query": "nvidia earnings",
+            "max_results": 5,
+            "crawl_results": 2
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "url": "https://api.search1api.com/search",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer s1-key",
+          "Accept": "application/json",
+          "User-Agent": "search1api-newapi-plugin/1.0.0",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "query": "nvidia earnings",
+          "max_results": 5,
+          "crawl_results": 2
+        }
+      }
+    },
+    {
+      "name": "trailing slash in base URL",
+      "hook": "buildSubmitRequest",
+      "args": [
+        {
+          "requestBody": {
+            "query": "coffee"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "maps",
+          "model": "search1api-maps",
+          "upstreamModel": "search1api-maps",
+          "baseUrl": "https://api.search1api.com/",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "url": "https://api.search1api.com/maps",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer s1-key",
+          "Accept": "application/json",
+          "User-Agent": "search1api-newapi-plugin/1.0.0",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "query": "coffee"
+        }
+      }
+    },
+    {
+      "name": "upstream New API gateway uses the plugin prefix",
+      "hook": "buildSubmitRequest",
+      "args": [
+        {
+          "requestBody": {
+            "query": "ai"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "news",
+          "model": "search1api-news",
+          "upstreamModel": "search1api-news",
+          "baseUrl": "https://gw.example.com",
+          "apiKey": "sk-up",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "new_api"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "url": "https://gw.example.com/search1api/news",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer sk-up",
+          "Accept": "application/json",
+          "User-Agent": "search1api-newapi-plugin/1.0.0",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "query": "ai"
+        }
+      }
+    },
+    {
+      "name": "unknown action",
+      "hook": "buildSubmitRequest",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://a.test"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "screenshot",
+          "model": "search1api-screenshot",
+          "upstreamModel": "search1api-screenshot",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expectedError": "Unsupported Search1API endpoint"
+    },
+    {
+      "name": "reserve 1 plus the pages a search reads",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "query": "nvidia earnings",
+            "max_results": 5,
+            "crawl_results": 2
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 3
+      }
+    },
+    {
+      "name": "crawl_results is capped by max_results",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "query": "a",
+            "max_results": 2,
+            "crawl_results": 10
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 3
+      }
+    },
+    {
+      "name": "integer strings count",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "query": "a",
+            "max_results": "4",
+            "crawl_results": "4"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "news",
+          "model": "search1api-news",
+          "upstreamModel": "search1api-news",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 5
+      }
+    },
+    {
+      "name": "search batch adds every item",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": [
+            {
+              "query": "a",
+              "crawl_results": 3
+            },
+            {
+              "query": "b"
+            }
+          ],
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 5
+      }
+    },
+    {
+      "name": "crawl batch reserves one per URL",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": [
+            {
+              "url": "https://a.test"
+            },
+            {
+              "url": "https://b.test"
+            },
+            {
+              "url": "https://c.test"
+            }
+          ],
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "crawl",
+          "model": "search1api-crawl",
+          "upstreamModel": "search1api-crawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 3
+      }
+    },
+    {
+      "name": "ask flat price",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://a.test"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "ask",
+          "model": "search1api-ask",
+          "upstreamModel": "search1api-ask",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 5
+      }
+    },
+    {
+      "name": "maps flat price",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://a.test"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "maps",
+          "model": "search1api-maps",
+          "upstreamModel": "search1api-maps",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 3
+      }
+    },
+    {
+      "name": "sitemap flat price",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://a.test"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "sitemap",
+          "model": "search1api-sitemap",
+          "upstreamModel": "search1api-sitemap",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 1
+      }
+    },
+    {
+      "name": "trending flat price",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://a.test"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "trending",
+          "model": "search1api-trending",
+          "upstreamModel": "search1api-trending",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 1
+      }
+    },
+    {
+      "name": "extract flat price",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://a.test"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "extract",
+          "model": "search1api-extract",
+          "upstreamModel": "search1api-extract",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 10
+      }
+    },
+    {
+      "name": "deepcrawl flat price",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://a.test"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        }
+      ],
+      "expected": {
+        "credits": 20
+      }
+    },
+    {
+      "name": "no billing ratios",
+      "hook": "extractUsage",
+      "args": [
+        {
+          "requestBody": {
+            "query": "nvidia earnings",
+            "max_results": 5,
+            "crawl_results": 2
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1",
+          "usagePurpose": "billing_ratios"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "settle on the charged credits header",
+      "hook": "parseSubmitResponse",
+      "args": [
+        {
+          "requestBody": {
+            "query": "nvidia earnings",
+            "max_results": 5,
+            "crawl_results": 2
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        },
+        {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json",
+            "X-Search1api-Credits": "2"
+          },
+          "body": {
+            "searchParameters": {
+              "query": "nvidia earnings"
+            },
+            "results": [
+              {
+                "title": "t",
+                "link": "https://a.test",
+                "snippet": "s"
+              }
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "taskId": "task_pub_1",
+        "taskData": {
+          "credits": 2,
+          "response": {
+            "searchParameters": {
+              "query": "nvidia earnings"
+            },
+            "results": [
+              {
+                "title": "t",
+                "link": "https://a.test",
+                "snippet": "s"
+              }
+            ]
+          }
+        },
+        "immediate": {
+          "status": "SUCCESS",
+          "progress": "100%"
+        }
+      }
+    },
+    {
+      "name": "keep the reservation without the header",
+      "hook": "parseSubmitResponse",
+      "args": [
+        {
+          "requestBody": {
+            "query": "nvidia earnings",
+            "max_results": 5,
+            "crawl_results": 2
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        },
+        {
+          "statusCode": 200,
+          "headers": {},
+          "body": {
+            "searchParameters": {
+              "query": "nvidia earnings"
+            },
+            "results": [
+              {
+                "title": "t",
+                "link": "https://a.test",
+                "snippet": "s"
+              }
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "taskId": "task_pub_1",
+        "taskData": {
+          "credits": 3,
+          "response": {
+            "searchParameters": {
+              "query": "nvidia earnings"
+            },
+            "results": [
+              {
+                "title": "t",
+                "link": "https://a.test",
+                "snippet": "s"
+              }
+            ]
+          }
+        },
+        "immediate": {
+          "status": "SUCCESS",
+          "progress": "100%"
+        }
+      }
+    },
+    {
+      "name": "batch responses are arrays",
+      "hook": "parseSubmitResponse",
+      "args": [
+        {
+          "requestBody": [
+            {
+              "url": "https://a.test"
+            }
+          ],
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "crawl",
+          "model": "search1api-crawl",
+          "upstreamModel": "search1api-crawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        },
+        {
+          "statusCode": 200,
+          "headers": {
+            "x-search1api-credits": "1"
+          },
+          "body": [
+            {
+              "crawlParameters": {
+                "url": "https://a.test"
+              },
+              "results": {
+                "content": "x"
+              }
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "taskId": "task_pub_1",
+        "taskData": {
+          "credits": 1,
+          "response": [
+            {
+              "crawlParameters": {
+                "url": "https://a.test"
+              },
+              "results": {
+                "content": "x"
+              }
+            }
+          ]
+        },
+        "immediate": {
+          "status": "SUCCESS",
+          "progress": "100%"
+        }
+      }
+    },
+    {
+      "name": "invalid charge header",
+      "hook": "parseSubmitResponse",
+      "args": [
+        {
+          "requestBody": {
+            "query": "nvidia earnings",
+            "max_results": 5,
+            "crawl_results": 2
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        },
+        {
+          "statusCode": 200,
+          "headers": {
+            "X-Search1api-Credits": "-1"
+          },
+          "body": {
+            "searchParameters": {
+              "query": "nvidia earnings"
+            },
+            "results": [
+              {
+                "title": "t",
+                "link": "https://a.test",
+                "snippet": "s"
+              }
+            ]
+          }
+        }
+      ],
+      "expectedError": "invalid credit charge"
+    },
+    {
+      "name": "non-JSON response",
+      "hook": "parseSubmitResponse",
+      "args": [
+        {
+          "requestBody": {
+            "query": "nvidia earnings",
+            "max_results": 5,
+            "crawl_results": 2
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        },
+        {
+          "statusCode": 200,
+          "headers": {},
+          "body": "<html>"
+        }
+      ],
+      "expectedError": "not JSON"
+    },
+    {
+      "name": "deep crawl start returns the task id",
+      "hook": "parseSubmitResponse",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://example.com"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        },
+        {
+          "statusCode": 202,
+          "headers": {
+            "X-Search1api-Credits": "20"
+          },
+          "body": {
+            "taskId": "dc-123",
+            "status": "queued"
+          }
+        }
+      ],
+      "expected": {
+        "taskId": "dc-123",
+        "taskData": {
+          "taskId": "dc-123",
+          "status": "queued"
+        },
+        "state": {
+          "credits": 20
+        }
+      }
+    },
+    {
+      "name": "deep crawl without task id",
+      "hook": "parseSubmitResponse",
+      "args": [
+        {
+          "requestBody": {
+            "url": "https://example.com"
+          },
+          "requestHeaders": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "files": [],
+          "publicTaskId": "task_pub_1"
+        },
+        {
+          "statusCode": 202,
+          "headers": {},
+          "body": {
+            "status": "queued"
+          }
+        }
+      ],
+      "expectedError": "did not return a deep crawl task id"
+    },
+    {
+      "name": "immediate completion bills the charge",
+      "hook": "extractUsageOnComplete",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "status": "SUCCESS"
+        },
+        {
+          "credits": 2,
+          "response": {
+            "searchParameters": {
+              "query": "nvidia earnings"
+            },
+            "results": [
+              {
+                "title": "t",
+                "link": "https://a.test",
+                "snippet": "s"
+              }
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "credits": 2
+      }
+    },
+    {
+      "name": "zero is a valid charge",
+      "hook": "extractUsageOnComplete",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "crawl",
+          "model": "search1api-crawl",
+          "upstreamModel": "search1api-crawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "status": "SUCCESS"
+        },
+        {
+          "credits": 0,
+          "response": []
+        }
+      ],
+      "expected": {
+        "credits": 0
+      }
+    },
+    {
+      "name": "deep crawl bills its start charge",
+      "hook": "extractUsageOnComplete",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": {
+            "credits": 20
+          }
+        },
+        {
+          "status": "SUCCESS"
+        },
+        {
+          "status": "completed"
+        }
+      ],
+      "expected": {
+        "credits": 20
+      }
+    },
+    {
+      "name": "missing charge keeps the reservation",
+      "hook": "extractUsageOnComplete",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "status": "SUCCESS"
+        },
+        {
+          "response": {
+            "searchParameters": {
+              "query": "nvidia earnings"
+            },
+            "results": [
+              {
+                "title": "t",
+                "link": "https://a.test",
+                "snippet": "s"
+              }
+            ]
+          }
+        }
+      ],
+      "expectedError": "credit usage is missing"
+    },
+    {
+      "name": "deep crawl status request",
+      "hook": "buildQueryRequest",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        }
+      ],
+      "expected": {
+        "url": "https://api.search1api.com/deepcrawl/status/dc-123",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer s1-key",
+          "Accept": "application/json",
+          "User-Agent": "search1api-newapi-plugin/1.0.0"
+        }
+      }
+    },
+    {
+      "name": "deep crawl status through an upstream gateway",
+      "hook": "buildQueryRequest",
+      "args": [
+        {
+          "taskId": "task_up_9",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://gw.example.com",
+          "apiKey": "sk-up",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "new_api"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        }
+      ],
+      "expected": {
+        "url": "https://gw.example.com/search1api/deepcrawl/status/task_up_9",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer sk-up",
+          "Accept": "application/json",
+          "User-Agent": "search1api-newapi-plugin/1.0.0"
+        }
+      }
+    },
+    {
+      "name": "only deep crawl polls",
+      "hook": "buildQueryRequest",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "search",
+          "model": "search1api-search",
+          "upstreamModel": "search1api-search",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        }
+      ],
+      "expectedError": "Only deep crawl tasks can be queried"
+    },
+    {
+      "name": "queued",
+      "hook": "parseTaskResult",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "taskId": "dc-123",
+          "status": "queued"
+        },
+        {
+          "status": 200,
+          "headers": {}
+        }
+      ],
+      "expected": {
+        "status": "QUEUED"
+      }
+    },
+    {
+      "name": "processing",
+      "hook": "parseTaskResult",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "taskId": "dc-123",
+          "status": "processing"
+        },
+        {
+          "status": 200,
+          "headers": {}
+        }
+      ],
+      "expected": {
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "name": "completed",
+      "hook": "parseTaskResult",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "taskId": "dc-123",
+          "status": "completed",
+          "message": "Successfully crawled 2 URLs",
+          "zipUrl": "https://file.search1api.com/dc-123-crawl-results.zip",
+          "format": "zip",
+          "stats": {
+            "crawled": 2
+          },
+          "failed": []
+        },
+        {
+          "status": 200,
+          "headers": {}
+        }
+      ],
+      "expected": {
+        "status": "SUCCESS",
+        "progress": "100%",
+        "url": "https://file.search1api.com/dc-123-crawl-results.zip"
+      }
+    },
+    {
+      "name": "failed",
+      "hook": "parseTaskResult",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "taskId": "dc-123",
+          "status": "failed",
+          "message": "Site blocked the crawler"
+        },
+        {
+          "status": 200,
+          "headers": {}
+        }
+      ],
+      "expected": {
+        "status": "FAILURE",
+        "reason": "Site blocked the crawler"
+      }
+    },
+    {
+      "name": "unknown status",
+      "hook": "parseTaskResult",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        {
+          "taskId": "dc-123",
+          "status": "paused"
+        },
+        {
+          "status": 200,
+          "headers": {}
+        }
+      ],
+      "expected": {
+        "status": "UNKNOWN",
+        "reason": "Unrecognized Search1API deep crawl status"
+      }
+    },
+    {
+      "name": "unrecognized body",
+      "hook": "parseTaskResult",
+      "args": [
+        {
+          "taskId": "dc-123",
+          "publicTaskId": "task_pub_2",
+          "action": "deepcrawl",
+          "model": "search1api-deepcrawl",
+          "upstreamModel": "search1api-deepcrawl",
+          "baseUrl": "https://api.search1api.com",
+          "apiKey": "s1-key",
+          "authHeader": "Bearer s1-key",
+          "upstream": {
+            "kind": "vendor"
+          },
+          "config": {},
+          "data": null,
+          "state": null
+        },
+        "oops",
+        {
+          "status": 500,
+          "headers": {}
+        }
+      ],
+      "expected": {
+        "status": "UNKNOWN",
+        "reason": "Unrecognized Search1API deep crawl response"
+      }
+    },
+    {
+      "name": "render the Search1API response",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": {
+              "query": "nvidia earnings",
+              "max_results": 5,
+              "crawl_results": 2
+            }
+          }
+        },
+        {
+          "task_id": "task_pub_1",
+          "status": "SUCCESS",
+          "data": {
+            "credits": 2,
+            "response": {
+              "searchParameters": {
+                "query": "nvidia earnings"
+              },
+              "results": [
+                {
+                  "title": "t",
+                  "link": "https://a.test",
+                  "snippet": "s"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "expected": {
+        "searchParameters": {
+          "query": "nvidia earnings"
+        },
+        "results": [
+          {
+            "title": "t",
+            "link": "https://a.test",
+            "snippet": "s"
+          }
+        ]
+      },
+      "member": "renderResult"
+    },
+    {
+      "name": "deep crawl start answers 202",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": {
+              "url": "https://example.com"
+            }
+          }
+        },
+        {
+          "task_id": "task_pub_2",
+          "status": "SUBMITTED",
+          "data": {
+            "taskId": "task_pub_2",
+            "status": "queued"
+          }
+        }
+      ],
+      "expected": {
+        "__status": 202,
+        "__body": {
+          "taskId": "task_pub_2",
+          "status": "queued"
+        }
+      },
+      "member": "renderDeepcrawlStarted"
+    },
+    {
+      "name": "deep crawl status shows the latest result",
+      "hook": "native",
+      "args": [
+        {
+          "method": "GET",
+          "path": "/deepcrawl/status/task_pub_2",
+          "params": {
+            "task_id": "task_pub_2"
+          },
+          "query": {},
+          "requestHeaders": {}
+        },
+        {
+          "task_id": "task_pub_2",
+          "status": "SUCCESS",
+          "data": {
+            "taskId": "task_pub_2",
+            "status": "completed",
+            "message": "Successfully crawled 2 URLs",
+            "zipUrl": "https://file.search1api.com/dc-123-crawl-results.zip",
+            "format": "zip",
+            "stats": {
+              "crawled": 2
+            },
+            "failed": []
+          }
+        }
+      ],
+      "expected": {
+        "taskId": "task_pub_2",
+        "status": "completed",
+        "message": "Successfully crawled 2 URLs",
+        "zipUrl": "https://file.search1api.com/dc-123-crawl-results.zip",
+        "format": "zip",
+        "stats": {
+          "crawled": 2
+        },
+        "failed": []
+      },
+      "member": "renderDeepcrawlStatus"
+    },
+    {
+      "name": "deep crawl status before the first poll",
+      "hook": "native",
+      "args": [
+        {
+          "method": "GET",
+          "path": "/deepcrawl/status/task_pub_2",
+          "params": {
+            "task_id": "task_pub_2"
+          },
+          "query": {},
+          "requestHeaders": {}
+        },
+        {
+          "task_id": "task_pub_2",
+          "status": "SUBMITTED",
+          "data": {
+            "taskId": "task_pub_2",
+            "status": "queued"
+          }
+        }
+      ],
+      "expected": {
+        "taskId": "task_pub_2",
+        "status": "queued"
+      },
+      "member": "renderDeepcrawlStatus"
+    },
+    {
+      "name": "gateway failure is a failed deep crawl",
+      "hook": "native",
+      "args": [
+        {
+          "method": "GET",
+          "path": "/deepcrawl/status/task_pub_2",
+          "params": {
+            "task_id": "task_pub_2"
+          },
+          "query": {},
+          "requestHeaders": {}
+        },
+        {
+          "task_id": "task_pub_2",
+          "status": "FAILURE",
+          "fail_reason": "poll failures exceeded",
+          "data": {
+            "taskId": "task_pub_2",
+            "status": "processing"
+          }
+        }
+      ],
+      "expected": {
+        "taskId": "task_pub_2",
+        "status": "failed",
+        "message": "poll failures exceeded"
+      },
+      "member": "renderDeepcrawlStatus"
+    },
+    {
+      "name": "Search1API errors keep their shape",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": {
+              "query": "nvidia earnings",
+              "max_results": 5,
+              "crawl_results": 2
+            }
+          }
+        },
+        {
+          "code": "upstream_error",
+          "message": "{\"error\":\"Bad Request\",\"message\":\"query is required\",\"ok\":false}",
+          "httpStatus": 400,
+          "retryable": false,
+          "requestId": "r1"
+        }
+      ],
+      "expected": {
+        "error": "Bad Request",
+        "message": "query is required",
+        "ok": false
+      },
+      "member": "error"
+    },
+    {
+      "name": "gateway errors become Search1API-shaped",
+      "hook": "native",
+      "args": [
+        {
+          "method": "POST",
+          "path": "/search",
+          "params": {},
+          "query": {},
+          "requestHeaders": {},
+          "body": {
+            "kind": "json",
+            "value": {
+              "query": "nvidia earnings",
+              "max_results": 5,
+              "crawl_results": 2
+            }
+          }
+        },
+        {
+          "code": "model_price_error",
+          "message": "Model price not configured",
+          "httpStatus": 400,
+          "retryable": false,
+          "requestId": "r1"
+        }
+      ],
+      "expected": {
+        "error": "model_price_error",
+        "message": "Model price not configured",
+        "ok": false
+      },
+      "member": "error"
+    }
+  ]
+}
