@@ -26,9 +26,6 @@ const ENDPOINTS = {
   extract: { model: "search1api-extract", path: "/extract", credits: 10 },
   deepcrawl: { model: "search1api-deepcrawl", path: "/deepcrawl", credits: 20 },
 };
-const MODELS = Object.keys(ENDPOINTS).map(function (action) {
-  return ENDPOINTS[action].model;
-});
 // Search1API rejects larger batches and caps max_results and crawl_results.
 const MAX_BATCH_ITEMS = 50;
 const MAX_RESULTS = 50;
@@ -37,70 +34,242 @@ const DEFAULT_MAX_RESULTS = 5;
 // read every result page.
 const MAX_CREDITS = MAX_BATCH_ITEMS * (1 + MAX_RESULTS);
 const CREDITS_HEADER = "x-search1api-credits";
-const USER_AGENT = "search1api-newapi-plugin/1.0.0";
+const USER_AGENT = "search1api-newapi-plugin/1.0.1";
 
-// Each endpoint is served at Search1API's path and again under /search1api,
-// so clients can use either the gateway root or {gateway}/search1api as their
-// Search1API base URL. The gateway adds the /search1api copy by itself only
-// for paths whose first segment is not a prefix of the key, which /search is.
-function routes(action, extra) {
-  const path = ENDPOINTS[action].path;
-  return [path, "/search1api" + path].map(function (routePath) {
-    return Object.assign({ method: "POST", path: routePath, type: "submit", decode: "decode_" + action }, extra);
-  });
-}
-
-function syncRoutes(action) {
-  return routes(action, { render: "renderResult", retainResult: false });
-}
-
+// The manifest is a plain JSON literal so marketplaces can read it without
+// running the plugin. Each endpoint is served at Search1API's path and again
+// under /search1api, so clients can use either the gateway root or
+// {gateway}/search1api as their Search1API base URL.
 export const meta = {
-  apiVersion: 1,
-  key: "fatwang2_search1api",
-  name: "Search1API",
-  version: "1.0.0",
-  sortPriority: 80,
-  icon: "Search1API.Color",
-  author: { name: "SuperAgents", url: "https://github.com/superagents-lab" },
-  website: "https://s1.dev/?utm_source=newapi&utm_medium=plugin",
-  description: {
-    en: "Web search, news, page reading and maps for AI apps, priced per Search1API credit",
-    zh: "为 AI 应用提供网页搜索、新闻、网页读取和地图，按 Search1API 积分定价",
+  "apiVersion": 1,
+  "key": "fatwang2_search1api",
+  "name": "Search1API",
+  "version": "1.0.1",
+  "sortPriority": 80,
+  "icon": "Search1API.Color",
+  "author": {
+    "name": "SuperAgents",
+    "url": "https://github.com/superagents-lab"
   },
-  baseUrl: "https://api.search1api.com",
-  auth: "api_key",
-  keyHint: { en: "Search1API API key", zh: "Search1API 的 API Key" },
-  models: MODELS,
-  upstreams: ["vendor", "new_api"],
-  fetchMode: "per_task",
-  routes: []
-    .concat(syncRoutes("search"))
-    .concat(syncRoutes("news"))
-    .concat(syncRoutes("crawl"))
-    .concat(syncRoutes("ask"))
-    .concat(syncRoutes("maps"))
-    .concat(syncRoutes("sitemap"))
-    .concat(syncRoutes("trending"))
-    .concat(syncRoutes("extract"))
-    .concat(routes("deepcrawl", { render: "renderDeepcrawlStarted" }))
-    .concat(
-      ["/deepcrawl/status/:task_id", "/search1api/deepcrawl/status/:task_id"].map(function (routePath) {
-        return { method: "GET", path: routePath, type: "query", render: "renderDeepcrawlStatus" };
-      }),
-    ),
-  usageSchema: {
-    credits: {
-      type: "number",
-      unit: "credit",
-      description: { en: "Search1API credit unit price", zh: "Search1API 积分单价" },
-    },
+  "website": "https://s1.dev/?utm_source=newapi&utm_medium=plugin",
+  "description": {
+    "en": "Web search, news, page reading and maps for AI apps, priced per Search1API credit",
+    "zh": "为 AI 应用提供网页搜索、新闻、网页读取和地图，按 Search1API 积分定价"
   },
-  usageExamples: [
-    { label: "search", facts: { credits: 1 } },
-    { label: "search · crawl_results 3", facts: { credits: 4 } },
-    { label: "maps", facts: { credits: 3 } },
-    { label: "deepcrawl", facts: { credits: 20 } },
+  "baseUrl": "https://api.search1api.com",
+  "auth": "api_key",
+  "keyHint": {
+    "en": "Search1API API key",
+    "zh": "Search1API 的 API Key"
+  },
+  "models": [
+    "search1api-search",
+    "search1api-news",
+    "search1api-crawl",
+    "search1api-ask",
+    "search1api-maps",
+    "search1api-sitemap",
+    "search1api-trending",
+    "search1api-extract",
+    "search1api-deepcrawl"
   ],
+  "upstreams": [
+    "vendor",
+    "new_api"
+  ],
+  "fetchMode": "per_task",
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/search",
+      "type": "submit",
+      "decode": "decode_search",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/search",
+      "type": "submit",
+      "decode": "decode_search",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/news",
+      "type": "submit",
+      "decode": "decode_news",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/news",
+      "type": "submit",
+      "decode": "decode_news",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/crawl",
+      "type": "submit",
+      "decode": "decode_crawl",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/crawl",
+      "type": "submit",
+      "decode": "decode_crawl",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/ask",
+      "type": "submit",
+      "decode": "decode_ask",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/ask",
+      "type": "submit",
+      "decode": "decode_ask",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/maps",
+      "type": "submit",
+      "decode": "decode_maps",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/maps",
+      "type": "submit",
+      "decode": "decode_maps",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/sitemap",
+      "type": "submit",
+      "decode": "decode_sitemap",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/sitemap",
+      "type": "submit",
+      "decode": "decode_sitemap",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/trending",
+      "type": "submit",
+      "decode": "decode_trending",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/trending",
+      "type": "submit",
+      "decode": "decode_trending",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/extract",
+      "type": "submit",
+      "decode": "decode_extract",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/extract",
+      "type": "submit",
+      "decode": "decode_extract",
+      "render": "renderResult",
+      "retainResult": false
+    },
+    {
+      "method": "POST",
+      "path": "/deepcrawl",
+      "type": "submit",
+      "decode": "decode_deepcrawl",
+      "render": "renderDeepcrawlStarted"
+    },
+    {
+      "method": "POST",
+      "path": "/search1api/deepcrawl",
+      "type": "submit",
+      "decode": "decode_deepcrawl",
+      "render": "renderDeepcrawlStarted"
+    },
+    {
+      "method": "GET",
+      "path": "/deepcrawl/status/:task_id",
+      "type": "query",
+      "render": "renderDeepcrawlStatus"
+    },
+    {
+      "method": "GET",
+      "path": "/search1api/deepcrawl/status/:task_id",
+      "type": "query",
+      "render": "renderDeepcrawlStatus"
+    }
+  ],
+  "usageSchema": {
+    "credits": {
+      "type": "number",
+      "unit": "credit",
+      "description": {
+        "en": "Search1API credit unit price",
+        "zh": "Search1API 积分单价"
+      }
+    }
+  },
+  "usageExamples": [
+    {
+      "label": "search",
+      "facts": {
+        "credits": 1
+      }
+    },
+    {
+      "label": "search · crawl_results 3",
+      "facts": {
+        "credits": 4
+      }
+    },
+    {
+      "label": "maps",
+      "facts": {
+        "credits": 3
+      }
+    },
+    {
+      "label": "deepcrawl",
+      "facts": {
+        "credits": 20
+      }
+    }
+  ]
 };
 
 function isObject(value) {
