@@ -1,10 +1,16 @@
 ---
 changelogVersion: 1
 plugin: "fatwang2_search1api"
-version: "1.0.1"
+version: "1.0.2"
 locale: "zh-CN"
 ---
 # Changelog
+
+## [1.0.2]
+
+### Changed
+
+- 插件图标改为 Search1API 的 logo。
 
 ## [1.0.1]
 

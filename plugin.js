@@ -34,7 +34,7 @@ const DEFAULT_MAX_RESULTS = 5;
 // read every result page.
 const MAX_CREDITS = MAX_BATCH_ITEMS * (1 + MAX_RESULTS);
 const CREDITS_HEADER = "x-search1api-credits";
-const USER_AGENT = "search1api-newapi-plugin/1.0.1";
+const USER_AGENT = "search1api-newapi-plugin/1.0.2";
 
 // The manifest is a plain JSON literal so marketplaces can read it without
 // running the plugin. Each endpoint is served at Search1API's path and again
@@ -44,9 +44,9 @@ export const meta = {
   "apiVersion": 1,
   "key": "fatwang2_search1api",
   "name": "Search1API",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "sortPriority": 80,
-  "icon": "Search1API.Color",
+  "icon": "text:S",
   "author": {
     "name": "SuperAgents",
     "url": "https://github.com/superagents-lab"
