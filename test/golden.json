@@ -388,7 +388,7 @@
         "headers": {
           "Authorization": "Bearer s1-key",
           "Accept": "application/json",
-          "User-Agent": "search1api-newapi-plugin/1.0.2",
+          "User-Agent": "search1api-newapi-plugin/1.0.3",
           "Content-Type": "application/json"
         },
         "body": {
@@ -430,7 +430,7 @@
         "headers": {
           "Authorization": "Bearer s1-key",
           "Accept": "application/json",
-          "User-Agent": "search1api-newapi-plugin/1.0.2",
+          "User-Agent": "search1api-newapi-plugin/1.0.3",
           "Content-Type": "application/json"
         },
         "body": {
@@ -470,7 +470,7 @@
         "headers": {
           "Authorization": "Bearer sk-up",
           "Accept": "application/json",
-          "User-Agent": "search1api-newapi-plugin/1.0.2",
+          "User-Agent": "search1api-newapi-plugin/1.0.3",
           "Content-Type": "application/json"
         },
         "body": {
@@ -1429,7 +1429,7 @@
         "headers": {
           "Authorization": "Bearer s1-key",
           "Accept": "application/json",
-          "User-Agent": "search1api-newapi-plugin/1.0.2"
+          "User-Agent": "search1api-newapi-plugin/1.0.3"
         }
       }
     },
@@ -1460,7 +1460,7 @@
         "headers": {
           "Authorization": "Bearer sk-up",
           "Accept": "application/json",
-          "User-Agent": "search1api-newapi-plugin/1.0.2"
+          "User-Agent": "search1api-newapi-plugin/1.0.3"
         }
       }
     },
